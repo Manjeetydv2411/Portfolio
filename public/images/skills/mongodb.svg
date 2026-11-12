@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#121812" />
+      <stop offset="100%" stop-color="#090909" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)" />
+  <path d="M200 50 C200 50 160 110 160 145 C160 175 180 190 200 200 C220 190 240 175 240 145 C240 110 200 50 200 50 Z" fill="none" stroke="#47A248" stroke-width="4"/>
+  <line x1="200" y1="90" x2="200" y2="200" stroke="#47A248" stroke-width="2"/>
+  <text x="200" y="235" font-family="monospace" font-size="16" font-weight="bold" fill="#47A248" text-anchor="middle">MONGODB / NOSQL</text>
+</svg>

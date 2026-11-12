@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#101418" />
+      <stop offset="100%" stop-color="#090909" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)" />
+  <ellipse cx="200" cy="85" rx="70" ry="24" fill="none" stroke="#00758F" stroke-width="3"/>
+  <path d="M130 85 V155 C130 168 162 179 200 179 C238 179 270 168 270 155 V85" fill="none" stroke="#00758F" stroke-width="3"/>
+  <path d="M130 120 C130 133 162 144 200 144 C238 144 270 133 270 120" fill="none" stroke="#00758F" stroke-width="2"/>
+  <text x="200" y="220" font-family="monospace" font-size="16" font-weight="bold" fill="#f2efeb" text-anchor="middle">SQL &amp; RELATIONAL DB</text>
+</svg>

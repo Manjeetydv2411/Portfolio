@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700&family=Caveat:wght@600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-darkBg: #101114;
+  --color-lightText: #f2efeb;
+  --color-brandAccent: #e32b3c;
+  --color-mutedText: #c2bcba;
+  --color-cardBg: #1c1d22;
+  --color-cardBorder: #32353d;
+  --font-display: 'Anton', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+  --font-accent: 'Caveat', cursive;
+}
+
+/* ── Base ─────────────────────────────────────────── */
+:root {
+  background-color: #101114;
+  color: #f2efeb;
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background-color: #101114;
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(255, 38, 60, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(120, 20, 35, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(255, 38, 60, 0.03) 0%, transparent 70%);
+  background-attachment: fixed;
+}
+
+/* ── Reduced motion handled by MotionContext ─────── */
+
+/* ── Text selection ───────────────────────────────── */
+::selection {
+  background-color: rgba(227, 43, 60, 0.35);
+  color: #f2efeb;
+}
+
+/* ── Scrollbar ────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #090909;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #e32b3c;
+}
+
+/* ── Focus visible ────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #e32b3c;
+  outline-offset: 3px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid #e32b3c;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px rgba(9, 9, 9, 0.9), 0 0 0 4px rgba(227, 43, 60, 0.4);
+}
+
+/* ── Typography defaults ──────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Anton', sans-serif;
+  color: #f2efeb;
+  line-height: 1.1;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+  color: #a09c9a;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}

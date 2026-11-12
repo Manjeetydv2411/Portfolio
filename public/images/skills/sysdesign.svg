@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#181010" />
+      <stop offset="100%" stop-color="#090909" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)" />
+  <rect x="150" y="70" width="100" height="40" rx="6" fill="none" stroke="#e32b3c" stroke-width="3"/>
+  <rect x="110" y="150" width="80" height="40" rx="6" fill="none" stroke="#f2efeb" stroke-width="2"/>
+  <rect x="210" y="150" width="80" height="40" rx="6" fill="none" stroke="#f2efeb" stroke-width="2"/>
+  <line x1="200" y1="110" x2="200" y2="130" stroke="#e32b3c" stroke-width="2"/>
+  <line x1="150" y1="130" x2="250" y2="130" stroke="#e32b3c" stroke-width="2"/>
+  <line x1="150" y1="130" x2="150" y2="150" stroke="#e32b3c" stroke-width="2"/>
+  <line x1="250" y1="130" x2="250" y2="150" stroke="#e32b3c" stroke-width="2"/>
+  <text x="200" y="230" font-family="monospace" font-size="16" font-weight="bold" fill="#e32b3c" text-anchor="middle">SYSTEM DESIGN</text>
+  <text x="200" y="250" font-family="monospace" font-size="11" fill="#a09c9a" text-anchor="middle">SCALABILITY &amp; LLD</text>
+</svg>

@@ -1,0 +1,170 @@
+{
+  "identity": {
+    "fullName": "Manjeet Yadav",
+    "displayName": "Manjeet",
+    "profession": "Full-Stack Web Developer & Software Engineer",
+    "roleLine2": "B.Tech CSE | MERN Stack | System Design",
+    "location": "Noida, Uttar Pradesh, India",
+    "availability": "AVAILABLE FOR WORK",
+    "headline": "Building scalable web applications, real-time systems, and modular backend architectures",
+    "intro": "Full-stack web developer specializing in the MERN stack, TypeScript, and Python. Focused on writing scalable backend systems, clean user interfaces, and robust Low-Level System Design (LLD).",
+    "about": "Computer Science & Engineering student at JSS Academy of Technical Education, Noida. Experienced in building real-time emergency response platforms, full-stack MERN platforms, and API gateways. Strong foundation in object-oriented design and modular software development.",
+    "portrait": "/assets/portrait.webp",
+    "resume": "/assets/resume.pdf",
+    "favicon": "/assets/favicon.ico"
+  },
+  "contact": {
+    "email": "manjeetydv2411@gmail.com",
+    "phone": "+918318384699",
+    "whatsapp": "+918318384699",
+    "instagram": "https://instagram.com/manjeet_ydv2411",
+    "linkedin": "https://www.linkedin.com/in/manjeet-yadav-333a29323",
+    "github": "https://github.com/Manjeetydv2411",
+    "otherLinks": []
+  },
+  "portfolio": {
+    "projects": [
+      {
+        "id": "rescuegrid-ai",
+        "title": "RescueGrid-AI",
+        "category": "AI / Web Application",
+        "year": "2026",
+        "summary": "Real-time emergency management platform powered by AI services.",
+        "description": "A tactical emergency response platform featuring a React & TypeScript frontend, a core Node.js & Express & TypeScript backend with MongoDB data storage and Socket.IO real-time communication, and a Python FastAPI AI microservice for intelligent incident processing and summaries.",
+        "role": "Lead Developer",
+        "tools": ["TypeScript", "Node.js", "Express.js", "MongoDB", "Python", "FastAPI", "React", "Socket.IO", "Tailwind CSS"],
+        "coverImage": "/images/projects/rescuegrid.png",
+        "gallery": [],
+        "videoUrl": "",
+        "liveUrl": "",
+        "sourceUrl": "",
+        "featured": true,
+        "backendArchitecture": "Hybrid architecture combining a core Node.js, Express, and TypeScript backend (managing MongoDB persistence and Socket.IO real-time events) with a Python FastAPI AI microservice for intelligent incident analysis and summaries.",
+        "keyFeatures": [
+          "Real-time tactical response dashboard utilizing Socket.IO web sockets",
+          "Core Node.js, Express & TypeScript backend handling API routing and MongoDB data models",
+          "Python FastAPI AI microservice for generating automated incident summaries and processing AI workloads",
+          "Type-safe React & TypeScript frontend interface"
+        ]
+      },
+      {
+        "id": "edtech-platform",
+        "title": "EdTech Platform",
+        "category": "Full-Stack Web App",
+        "year": "2026",
+        "summary": "Interactive digital learning and course management platform built on MERN stack.",
+        "description": "A full-stack educational web application designed using MongoDB, Express.js, React, and Node.js. Features user authentication, course delivery, interactive learning modules, and dynamic progress tracking.",
+        "role": "Full-Stack Developer",
+        "tools": ["MongoDB", "Express.js", "React", "Node.js", "Tailwind CSS", "JavaScript"],
+        "coverImage": "/images/projects/edtech.jpg",
+        "gallery": [],
+        "videoUrl": "",
+        "liveUrl": "",
+        "sourceUrl": "",
+        "featured": true,
+        "backendArchitecture": "RESTful Node.js & Express.js backend with MongoDB ODM data modeling and JWT-based authentication workflows.",
+        "keyFeatures": [
+          "Multi-role user authentication (Student, Instructor, Admin)",
+          "Course creation, management, and content delivery pipelines",
+          "Interactive digital learning modules and progress tracking",
+          "RESTful API architecture with robust error handling and middleware security"
+        ]
+      },
+      {
+        "id": "real-estate-platform",
+        "title": "Real Estate Marketplace",
+        "category": "Web Application",
+        "year": "2025",
+        "summary": "MERN-based property listing, search, and dynamic filtering platform.",
+        "description": "A feature-rich real estate application utilizing MongoDB, Express.js, React, and Node.js. Allows users to query, search, dynamic-filter, and view property listings with high-contrast UI.",
+        "role": "Full-Stack Developer",
+        "tools": ["MongoDB", "Express.js", "React", "Node.js", "Tailwind CSS", "JavaScript"],
+        "coverImage": "/images/projects/realestate.jpg",
+        "gallery": [],
+        "videoUrl": "",
+        "liveUrl": "",
+        "sourceUrl": "",
+        "featured": true
+      },
+      {
+        "id": "developer-portfolio",
+        "title": "Cinematic Developer Portfolio",
+        "category": "Frontend / Creative UX",
+        "year": "2026",
+        "summary": "Editorial, high-performance developer portfolio with custom Framer Motion animations.",
+        "description": "A dark-mode personal portfolio built with React, Node.js, Express.js, Framer Motion, and Tailwind CSS. Features accessible category filtering, interactive project dialogs, smooth scroll-linked animations, and responsive performance across devices.",
+        "role": "Frontend Architect",
+        "tools": ["MongoDB", "Express.js", "React 19", "Node.js", "Framer Motion", "Tailwind CSS"],
+        "coverImage": "/images/projects/portfolio.jpg",
+        "gallery": [],
+        "videoUrl": "",
+        "liveUrl": "",
+        "sourceUrl": "",
+        "featured": true
+      }
+    ],
+    "featuredProjectIds": ["rescuegrid-ai", "edtech-platform", "real-estate-platform", "developer-portfolio"],
+    "categories": ["AI / Web Application", "Full-Stack Web App", "Web Application", "Frontend / Creative UX"],
+    "skills": [
+      "JavaScript",
+      "React",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "SQL",
+      "Tailwind CSS v4",
+      "Python",
+      "TypeScript",
+      "C++",
+      "Data Structures & Algorithms"
+    ],
+    "tools": [
+      "VS Code",
+      "Git & GitHub",
+      "Postman",
+      "MongoDB Compass",
+      "MacBook Air / macOS",
+      "Zsh Terminal",
+      "OmniRoute"
+    ],
+    "experience": [
+      {
+        "role": "Data Analytics & Intelligence Intern",
+        "organization": "JSS University, Noida",
+        "period": "June 2026 – July 2026",
+        "description": "Engaged in data analytics program focusing on intelligent data processing, backend integration, and analytical pipeline workflows."
+      }
+    ],
+    "education": [
+      {
+        "institution": "JSS Academy of Technical Education, Noida",
+        "degree": "B.Tech in Computer Science and Engineering (CSE)",
+        "period": "2023 – Present"
+      }
+    ]
+  },
+  "appearance": {
+    "style": "cinematic minimal, premium, editorial, refined typography",
+    "theme": "dark",
+    "background": "#090909",
+    "text": "#f2efeb",
+    "accent": "#e32b3c",
+    "muted": "#a09c9a",
+    "displayFont": "Anton",
+    "bodyFont": "Manrope",
+    "accentFont": "Caveat",
+    "animationIntensity": "balanced",
+    "language": "English"
+  },
+  "preferences": {
+    "showAwards": false,
+    "showEducation": true,
+    "showExperience": true,
+    "showBeforeAfter": false,
+    "showClientLogos": false,
+    "showTestimonials": false,
+    "showContactForm": true,
+    "showDownloadResume": true,
+    "showProjectArchive": true
+  }
+}

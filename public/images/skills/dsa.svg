@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#181012" />
+      <stop offset="100%" stop-color="#090909" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)" />
+  <circle cx="200" cy="110" r="35" fill="none" stroke="#e32b3c" stroke-width="3"/>
+  <circle cx="130" cy="170" r="25" fill="none" stroke="#f2efeb" stroke-width="2"/>
+  <circle cx="270" cy="170" r="25" fill="none" stroke="#f2efeb" stroke-width="2"/>
+  <line x1="175" y1="135" x2="145" y2="155" stroke="#e32b3c" stroke-width="2"/>
+  <line x1="225" y1="135" x2="255" y2="155" stroke="#e32b3c" stroke-width="2"/>
+  <text x="200" y="118" font-family="monospace" font-size="16" font-weight="bold" fill="#f2efeb" text-anchor="middle">O(1)</text>
+  <text x="200" y="230" font-family="monospace" font-size="14" fill="#e32b3c" text-anchor="middle">DATA STRUCTURES &amp; ALGORITHMS</text>
+</svg>
