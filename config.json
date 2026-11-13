@@ -36,10 +36,8 @@
         "coverImage": "/images/projects/rescuegrid.png",
         "gallery": [],
         "videoUrl": "",
-        "liveUrl": "",
-        "sourceUrl": "",
-        "featured": true,
-        "backendArchitecture": "Hybrid architecture combining a core Node.js, Express, and TypeScript backend (managing MongoDB persistence and Socket.IO real-time events) with a Python FastAPI AI microservice for intelligent incident analysis and summaries.",
+        "liveUrl": "https://rescue-grid-ai-beta.vercel.app/",
+        "sourceUrl": "https://github.com/Manjeetydv2411/RescueGrid-AI",
         "keyFeatures": [
           "Real-time tactical response dashboard utilizing Socket.IO web sockets",
           "Core Node.js, Express & TypeScript backend handling API routing and MongoDB data models",
@@ -59,10 +57,8 @@
         "coverImage": "/images/projects/edtech.jpg",
         "gallery": [],
         "videoUrl": "",
-        "liveUrl": "",
-        "sourceUrl": "",
-        "featured": true,
-        "backendArchitecture": "RESTful Node.js & Express.js backend with MongoDB ODM data modeling and JWT-based authentication workflows.",
+        "liveUrl": null,
+        "sourceUrl": "https://github.com/Manjeetydv2411/studynotionapp",
         "keyFeatures": [
           "Multi-role user authentication (Student, Instructor, Admin)",
           "Course creation, management, and content delivery pipelines",
@@ -82,8 +78,8 @@
         "coverImage": "/images/projects/realestate.jpg",
         "gallery": [],
         "videoUrl": "",
-        "liveUrl": "",
-        "sourceUrl": "",
+        "liveUrl": null,
+        "sourceUrl": "https://github.com/Manjeetydv2411/Dream-properties",
         "featured": true
       },
       {

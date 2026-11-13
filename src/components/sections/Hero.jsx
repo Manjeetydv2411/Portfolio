@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, memo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowRight, MapPin, Sparkles, Download } from 'lucide-react'
+import { ArrowRight, MapPin, Sparkles, Download, ExternalLink } from 'lucide-react'
 import { identity, skills, preferences } from '../../config/site.js'
 import { useMotion } from '../../config/MotionContext.jsx'
 import TechCube3D from '../three/TechCube3D.jsx'
@@ -261,7 +261,17 @@ export default function Hero() {
             </button>
 
             <a
-              href="/Manjeet_Yadav_Resume.pdf"
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-cardBg border border-cardBorder text-lightText font-body text-sm font-medium tracking-wide hover:border-brandAccent/50 transition-all duration-200 cursor-pointer"
+            >
+              <ExternalLink size={16} />
+              <span>View Resume</span>
+            </a>
+
+            <a
+              href="/resume.pdf"
               download="Manjeet_Yadav_Resume.pdf"
               className="inline-flex items-center gap-2 px-7 py-3.5 bg-cardBg border border-cardBorder text-lightText font-body text-sm font-medium tracking-wide hover:border-brandAccent/50 transition-all duration-200 cursor-pointer"
             >

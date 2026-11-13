@@ -215,7 +215,7 @@ export default function Projects() {
                         Details
                       </button>
 
-                      {project.liveUrl && project.liveUrl.trim() !== '' && (
+                      {project.liveUrl && project.liveUrl.trim() !== '' ? (
                         <a
                           href={project.liveUrl}
                           target="_blank"
@@ -227,6 +227,11 @@ export default function Projects() {
                           <ExternalLink size={15} />
                           Live
                         </a>
+                      ) : (
+                        <span className="ml-auto inline-flex items-center gap-1.5 text-xs font-mono text-mutedText/50 cursor-not-allowed">
+                          <ExternalLink size={15} />
+                          Coming Soon
+                        </span>
                       )}
 
                       {project.sourceUrl && project.sourceUrl.trim() !== '' && (
@@ -236,10 +241,7 @@ export default function Projects() {
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
                           aria-label={`${project.title} source code`}
-                          className={[
-                            'inline-flex items-center gap-1.5 text-xs font-mono text-mutedText hover:text-brandAccent transition-colors duration-200',
-                            !(project.liveUrl && project.liveUrl.trim() !== '') ? 'ml-auto' : '',
-                          ].join(' ')}
+                          className="inline-flex items-center gap-1.5 text-xs font-mono text-mutedText hover:text-brandAccent transition-colors duration-200"
                         >
                           <Code2 size={15} />
                           Code
