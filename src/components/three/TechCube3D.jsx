@@ -127,6 +127,30 @@ export default function TechCube3D() {
     setIsDragging(false)
   }, [])
 
+  // Use a state to handle the translateZ value responsively
+  const [cubeTranslateZ, setCubeTranslateZ] = useState(90)
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setCubeTranslateZ(90)
+      } else {
+        setCubeTranslateZ(110)
+      }
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const CUBE_FACES_DYNAMIC = CUBE_FACES.map(face => {
+    let transform = face.transform
+    if (transform.includes('translateZ(110px)')) {
+      transform = transform.replace('translateZ(110px)', `translateZ(${cubeTranslateZ}px)`)
+    }
+    return { ...face, transform }
+  })
+
   return (
     <div className="w-full flex flex-col items-center select-none">
       <div
@@ -147,10 +171,10 @@ export default function TechCube3D() {
           className="relative w-[180px] h-[180px] sm:w-[220px] sm:h-[220px]"
           style={{
             transformStyle: 'preserve-3d',
-            transform: `translateZ(-90px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
+            transform: `translateZ(-${cubeTranslateZ}px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
           }}
         >
-          {CUBE_FACES.map((face) => {
+          {CUBE_FACES_DYNAMIC.map((face) => {
             const Icon = face.icon
             const isSelected = activeFace.id === face.id
 

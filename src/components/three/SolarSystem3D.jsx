@@ -107,6 +107,23 @@ export default function SolarSystem3D() {
   const pausedElapsedRef = useRef(0)
   const lastActiveTimeRef = useRef(performance.now())
 
+  const [orbitScale, setOrbitScale] = useState(1)
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setOrbitScale(0.6)
+      } else if (window.innerWidth < 1024) {
+        setOrbitScale(0.8)
+      } else {
+        setOrbitScale(1)
+      }
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   useEffect(() => {
     if (!motionEnabled) {
       pausedElapsedRef.current += (performance.now() - lastActiveTimeRef.current) / 1000
@@ -123,8 +140,8 @@ export default function SolarSystem3D() {
         const angularSpeed = (2 * Math.PI) / planet.durationSeconds
         const angle = planet.initialAngle + angularSpeed * totalElapsed
 
-        const x = planet.orbitRadiusX * Math.cos(angle)
-        const y = planet.orbitRadiusY * Math.sin(angle)
+        const x = planet.orbitRadiusX * orbitScale * Math.cos(angle)
+        const y = planet.orbitRadiusY * orbitScale * Math.sin(angle)
 
         const el = planetRefs.current[planet.id]
         if (el) {
@@ -139,7 +156,7 @@ export default function SolarSystem3D() {
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
     }
-  }, [motionEnabled])
+  }, [motionEnabled, orbitScale])
 
   return (
     <div className="w-full bg-cardBg border border-cardBorder rounded-md p-6 sm:p-10 relative overflow-visible my-12">
@@ -181,8 +198,8 @@ export default function SolarSystem3D() {
                 key={`orbit-${planet.id}`}
                 cx="0"
                 cy="0"
-                rx={planet.orbitRadiusX}
-                ry={planet.orbitRadiusY}
+                rx={planet.orbitRadiusX * orbitScale}
+                ry={planet.orbitRadiusY * orbitScale}
                 fill="none"
                 stroke="#66222b"
                 strokeWidth="1.8"
@@ -193,9 +210,9 @@ export default function SolarSystem3D() {
 
             {/* Central Sun */}
             <g className="cursor-pointer pointer-events-auto" onClick={() => setSelectedPlanet(PLANETS[0])}>
-              <circle cx="0" cy="0" r="48" fill="url(#sunGlow)" />
-              <circle cx="0" cy="0" r="34" fill="#121212" stroke="#e32b3c" strokeWidth="2.5" />
-              <text x="0" y="0" textAnchor="middle" dominantBaseline="middle" fill="#f2efeb" fontSize="8" fontFamily="monospace" fontWeight="bold">
+              <circle cx="0" cy="0" r={48 * orbitScale} fill="url(#sunGlow)" />
+              <circle cx="0" cy="0" r={34 * orbitScale} fill="#121212" stroke="#e32b3c" strokeWidth={2.5 * orbitScale} />
+              <text x="0" y="0" textAnchor="middle" dominantBaseline="middle" fill="#f2efeb" fontSize={8 * orbitScale} fontFamily="monospace" fontWeight="bold">
                 MY JOURNEY
               </text>
             </g>
@@ -207,8 +224,8 @@ export default function SolarSystem3D() {
             const isHovered = hoveredPlanet === planet.id
             const Icon = planet.icon
 
-            const initialX = planet.orbitRadiusX * Math.cos(planet.initialAngle)
-            const initialY = planet.orbitRadiusY * Math.sin(planet.initialAngle)
+            const initialX = planet.orbitRadiusX * orbitScale * Math.cos(planet.initialAngle)
+            const initialY = planet.orbitRadiusY * orbitScale * Math.sin(planet.initialAngle)
 
             return (
               <div
