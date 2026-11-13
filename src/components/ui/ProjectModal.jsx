@@ -37,14 +37,14 @@ export default function ProjectModal({ project, onClose }) {
         {...animProps}
         transition={{ duration: motionEnabled ? 0.25 : 0, ease: 'easeOut' }}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-3xl bg-cardBg border border-cardBorder p-6 sm:p-8 md:p-10 text-lightText my-auto max-h-[90vh] overflow-y-auto shadow-2xl"
+        className="relative w-full max-w-3xl bg-cardBg border border-cardBorder rounded-lg p-6 sm:p-8 md:p-10 text-lightText my-auto max-h-[90vh] overflow-y-auto shadow-2xl"
       >
         {/* Close button */}
         <button
           type="button"
           onClick={onClose}
           aria-label="Close dialog"
-          className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center text-mutedText hover:text-lightText hover:bg-darkBg border border-cardBorder transition-all duration-200 cursor-pointer"
+          className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center text-mutedText hover:text-lightText hover:bg-darkBg border border-cardBorder rounded-md transition-all duration-200 cursor-pointer"
         >
           <X size={20} />
         </button>
@@ -150,7 +150,7 @@ export default function ProjectModal({ project, onClose }) {
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-brandAccent text-lightText font-body text-sm font-medium tracking-wide hover:bg-brandAccent/90 transition-all duration-200"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-brandAccent text-lightText font-body text-sm font-medium tracking-wide hover:bg-brandAccent/85 transition-all duration-200 rounded-md shadow-md shadow-brandAccent/20"
             >
               <span>Live Demo</span>
               <ExternalLink size={15} />
@@ -162,9 +162,9 @@ export default function ProjectModal({ project, onClose }) {
               href={project.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-darkBg border border-cardBorder text-lightText font-body text-sm font-medium tracking-wide hover:border-brandAccent transition-all duration-200"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#3d4150] hover:bg-[#4e5263] text-lightText font-body text-sm font-medium tracking-wide transition-all duration-200 rounded-md shadow-sm"
             >
-              <Globe size={15} />
+              <Code2 size={15} />
               <span>Source Code</span>
             </a>
           )}
@@ -172,7 +172,7 @@ export default function ProjectModal({ project, onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="ml-auto px-5 py-3 text-sm text-mutedText hover:text-lightText font-body transition-colors cursor-pointer"
+            className="ml-auto px-5 py-3 text-sm bg-[#3d4150] hover:bg-[#4e5263] text-lightText font-body transition-all duration-200 cursor-pointer rounded-md shadow-sm"
           >
             Close
           </button>

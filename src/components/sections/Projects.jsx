@@ -84,7 +84,7 @@ export default function Projects() {
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
                 className={[
-                  'px-4 py-2 text-xs font-mono uppercase tracking-wider transition-all duration-200 cursor-pointer',
+                  'px-4 py-2 text-xs font-mono uppercase tracking-wider transition-all duration-200 cursor-pointer rounded-md',
                   isActive
                     ? 'bg-brandAccent text-lightText font-medium shadow-md shadow-brandAccent/20'
                     : 'bg-cardBg border border-cardBorder text-mutedText hover:text-lightText hover:border-brandAccent/40',
@@ -98,7 +98,7 @@ export default function Projects() {
 
         {/* Project Card Stacking Sequence */}
         {filteredProjects.length === 0 ? (
-          <div className="text-center py-20 bg-cardBg border border-cardBorder">
+          <div className="text-center py-20 bg-cardBg border border-cardBorder rounded-md">
             <p className="text-mutedText font-body text-base">No projects in this category.</p>
             <button
               type="button"
@@ -134,7 +134,7 @@ export default function Projects() {
                   }}
                   onMouseMove={(e) => handleCardMouseMove(e, project.id)}
                   onMouseLeave={() => handleCardMouseLeave(project.id)}
-                  className="group bg-cardBg border border-cardBorder flex flex-col md:flex-row hover:border-brandAccent/60 transition-all duration-300 relative overflow-hidden shadow-2xl"
+                  className="group bg-cardBg border border-cardBorder rounded-md flex flex-col md:flex-row hover:border-brandAccent/60 transition-all duration-300 relative overflow-hidden shadow-2xl"
                 >
                   {/* Top accent line on hover */}
                   <div className="absolute top-0 left-0 right-0 h-0.5 bg-brandAccent scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-20" />
@@ -196,7 +196,7 @@ export default function Projects() {
                         {project.tools.map((tool) => (
                           <span
                             key={tool}
-                            className="px-3 py-1 text-xs font-mono bg-darkBg border border-cardBorder text-lightText tracking-wide"
+                            className="px-3 py-1 text-xs font-mono bg-darkBg border border-cardBorder text-lightText tracking-wide rounded-md"
                           >
                             {tool}
                           </span>
@@ -209,7 +209,7 @@ export default function Projects() {
                       <button
                         type="button"
                         onClick={() => setActiveProject(project)}
-                        className="inline-flex items-center gap-1.5 text-xs font-mono text-mutedText hover:text-lightText transition-colors duration-200 uppercase tracking-wider cursor-pointer"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-mono bg-[#3d4150] hover:bg-[#4e5263] text-lightText transition-colors duration-200 rounded-md shadow-sm uppercase tracking-wider cursor-pointer"
                       >
                         <ArrowUpRight size={15} />
                         Details
@@ -222,13 +222,13 @@ export default function Projects() {
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
                           aria-label={`${project.title} live demo`}
-                          className="ml-auto inline-flex items-center gap-1.5 text-xs font-mono text-mutedText hover:text-brandAccent transition-colors duration-200"
+                          className="ml-auto inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-mono bg-brandAccent hover:bg-brandAccent/85 text-lightText transition-colors duration-200 rounded-md shadow-md shadow-brandAccent/20"
                         >
                           <ExternalLink size={15} />
                           Live
                         </a>
                       ) : (
-                        <span className="ml-auto inline-flex items-center gap-1.5 text-xs font-mono text-mutedText/50 cursor-not-allowed">
+                        <span className="ml-auto inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-mono bg-cardBg border border-cardBorder text-lightText/50 rounded-md cursor-not-allowed">
                           <ExternalLink size={15} />
                           Coming Soon
                         </span>
@@ -241,7 +241,7 @@ export default function Projects() {
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
                           aria-label={`${project.title} source code`}
-                          className="inline-flex items-center gap-1.5 text-xs font-mono text-mutedText hover:text-brandAccent transition-colors duration-200"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-mono bg-[#3d4150] hover:bg-[#4e5263] text-lightText transition-colors duration-200 rounded-md shadow-sm"
                         >
                           <Code2 size={15} />
                           Code

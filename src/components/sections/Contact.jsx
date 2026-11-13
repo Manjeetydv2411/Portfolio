@@ -135,7 +135,7 @@ export default function Contact() {
             {...animProps}
             className="lg:col-span-5 flex flex-col gap-6"
           >
-            <div className="bg-cardBg border border-cardBorder p-8 sm:p-10 relative overflow-hidden group hover:border-brandAccent/60 transition-all duration-300 shadow-lg">
+            <div className="bg-cardBg border border-cardBorder rounded-md p-8 sm:p-10 relative overflow-hidden group hover:border-brandAccent/60 transition-all duration-300 shadow-lg">
               <div className="absolute top-0 left-0 right-0 h-0.5 bg-brandAccent scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-10" />
 
               {/* Availability Callout Badge */}
@@ -156,7 +156,7 @@ export default function Contact() {
               <div className="space-y-6">
                 {contact.email && (
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 flex items-center justify-center bg-darkBg border border-cardBorder text-brandAccent shrink-0">
+                    <div className="w-10 h-10 flex items-center justify-center bg-darkBg border border-cardBorder rounded-md text-brandAccent shrink-0">
                       <Mail size={18} />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -171,7 +171,7 @@ export default function Contact() {
                         <button
                           type="button"
                           onClick={handleCopyEmail}
-                          className="inline-flex items-center gap-1 px-2.5 py-1 bg-darkBg border border-cardBorder text-[10px] font-mono text-mutedText hover:text-lightText hover:border-brandAccent/60 transition-all cursor-pointer"
+                          className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#3d4150] hover:bg-[#4e5263] text-[10px] font-mono text-lightText transition-all cursor-pointer rounded-md shadow-sm"
                           title="Copy email address"
                         >
                           {copied ? (
@@ -193,7 +193,7 @@ export default function Contact() {
 
                 {contact.phone && (
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 flex items-center justify-center bg-darkBg border border-cardBorder text-brandAccent shrink-0">
+                    <div className="w-10 h-10 flex items-center justify-center bg-darkBg border border-cardBorder rounded-md text-brandAccent shrink-0">
                       <Phone size={18} />
                     </div>
                     <div>
@@ -210,7 +210,7 @@ export default function Contact() {
 
                 {identity.location && (
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 flex items-center justify-center bg-darkBg border border-cardBorder text-brandAccent shrink-0">
+                    <div className="w-10 h-10 flex items-center justify-center bg-darkBg border border-cardBorder rounded-md text-brandAccent shrink-0">
                       <MapPin size={18} />
                     </div>
                     <div>
@@ -228,7 +228,7 @@ export default function Contact() {
                     href={contact.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-darkBg border border-cardBorder text-xs font-mono text-lightText hover:border-brandAccent transition-colors"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#3d4150] hover:bg-[#4e5263] text-xs font-mono text-lightText transition-colors rounded-md shadow-sm"
                   >
                     <span>LinkedIn</span>
                     <ExternalLink size={12} />
@@ -239,7 +239,7 @@ export default function Contact() {
                     href={contact.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-darkBg border border-cardBorder text-xs font-mono text-lightText hover:border-brandAccent transition-colors"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#3d4150] hover:bg-[#4e5263] text-xs font-mono text-lightText transition-colors rounded-md shadow-sm"
                   >
                     <span>GitHub</span>
                     <ExternalLink size={12} />
@@ -250,7 +250,7 @@ export default function Contact() {
                     href={contact.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-darkBg border border-cardBorder text-xs font-mono text-lightText hover:border-brandAccent transition-colors"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#3d4150] hover:bg-[#4e5263] text-xs font-mono text-lightText transition-colors rounded-md shadow-sm"
                   >
                     <span>Instagram</span>
                     <ExternalLink size={12} />
@@ -268,7 +268,7 @@ export default function Contact() {
           >
             <form
               onSubmit={handleSubmit}
-              className="bg-cardBg border border-cardBorder p-8 sm:p-10 space-y-6 relative overflow-hidden group hover:border-brandAccent/60 transition-all duration-300 shadow-lg"
+              className="bg-cardBg border border-cardBorder rounded-md p-8 sm:p-10 space-y-6 relative overflow-hidden group hover:border-brandAccent/60 transition-all duration-300 shadow-lg"
               noValidate
               aria-label="Contact form"
             >
@@ -316,7 +316,7 @@ export default function Contact() {
                     aria-invalid={fieldErrors.name}
                     placeholder="John Doe"
                     className={[
-                      'w-full px-4 py-3 bg-darkBg border text-lightText placeholder:text-mutedText/50 font-body text-sm focus:outline-none focus:ring-1 transition-colors',
+                      'w-full px-4 py-3 bg-darkBg border text-lightText placeholder:text-mutedText/50 font-body text-sm focus:outline-none focus:ring-1 transition-colors rounded-md',
                       fieldErrors.name
                         ? 'border-brandAccent ring-1 ring-brandAccent'
                         : 'border-cardBorder focus:border-brandAccent focus:ring-brandAccent',
@@ -342,7 +342,7 @@ export default function Contact() {
                     aria-invalid={fieldErrors.email}
                     placeholder="john@example.com"
                     className={[
-                      'w-full px-4 py-3 bg-darkBg border text-lightText placeholder:text-mutedText/50 font-body text-sm focus:outline-none focus:ring-1 transition-colors',
+                      'w-full px-4 py-3 bg-darkBg border text-lightText placeholder:text-mutedText/50 font-body text-sm focus:outline-none focus:ring-1 transition-colors rounded-md',
                       fieldErrors.email
                         ? 'border-brandAccent ring-1 ring-brandAccent'
                         : 'border-cardBorder focus:border-brandAccent focus:ring-brandAccent',
@@ -369,7 +369,7 @@ export default function Contact() {
                   aria-invalid={fieldErrors.subject}
                   placeholder="Project Inquiry / Collaboration"
                   className={[
-                    'w-full px-4 py-3 bg-darkBg border text-lightText placeholder:text-mutedText/50 font-body text-sm focus:outline-none focus:ring-1 transition-colors',
+                    'w-full px-4 py-3 bg-darkBg border text-lightText placeholder:text-mutedText/50 font-body text-sm focus:outline-none focus:ring-1 transition-colors rounded-md',
                     fieldErrors.subject
                       ? 'border-brandAccent ring-1 ring-brandAccent'
                       : 'border-cardBorder focus:border-brandAccent focus:ring-brandAccent',
@@ -395,7 +395,7 @@ export default function Contact() {
                   aria-invalid={fieldErrors.message}
                   placeholder="Tell me about your project or inquiry..."
                   className={[
-                    'w-full px-4 py-3 bg-darkBg border text-lightText placeholder:text-mutedText/50 font-body text-sm focus:outline-none focus:ring-1 transition-colors resize-y',
+                    'w-full px-4 py-3 bg-darkBg border text-lightText placeholder:text-mutedText/50 font-body text-sm focus:outline-none focus:ring-1 transition-colors resize-y rounded-md',
                     fieldErrors.message
                       ? 'border-brandAccent ring-1 ring-brandAccent'
                       : 'border-cardBorder focus:border-brandAccent focus:ring-brandAccent',
@@ -409,7 +409,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={status.submitting}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-brandAccent text-lightText font-body text-sm font-medium tracking-wide hover:bg-brandAccent/90 transition-all duration-200 cursor-pointer shadow-lg shadow-brandAccent/20 disabled:opacity-50"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-brandAccent text-lightText font-body text-sm font-medium tracking-wide hover:bg-brandAccent/85 transition-all duration-200 cursor-pointer shadow-lg shadow-brandAccent/20 disabled:opacity-50 rounded-md"
               >
                 {status.submitting ? (
                   <>

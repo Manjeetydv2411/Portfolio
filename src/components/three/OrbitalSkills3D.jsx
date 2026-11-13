@@ -153,7 +153,7 @@ export default function OrbitalSkills3D() {
   }, [motionEnabled, radius])
 
   return (
-    <div className="w-full bg-cardBg border border-cardBorder p-6 sm:p-10 relative overflow-visible my-12">
+    <div className="w-full bg-cardBg border border-cardBorder rounded-md p-6 sm:p-10 relative overflow-visible my-12">
       {/* Background ambient glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-brandAccent/5 blur-[160px] rounded-full pointer-events-none" />
 

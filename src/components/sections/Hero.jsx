@@ -179,7 +179,7 @@ export default function Hero() {
             className="flex flex-wrap items-center gap-4 mb-6"
           >
             {identity.availability && (
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-cardBg border border-cardBorder text-xs tracking-widest text-lightText uppercase">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-cardBg border border-cardBorder text-xs tracking-widest text-lightText uppercase rounded-md">
                 <span className={`w-2 h-2 rounded-full bg-brandAccent ${motionEnabled ? 'animate-pulse' : ''}`} />
                 <span>{identity.availability}</span>
               </div>
@@ -254,7 +254,7 @@ export default function Hero() {
             <button
               type="button"
               onClick={() => scrollTo('#projects')}
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-brandAccent text-lightText font-body text-sm font-medium tracking-wide hover:bg-brandAccent/90 transition-all duration-200 group cursor-pointer shadow-lg shadow-brandAccent/20"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-brandAccent text-lightText font-body text-sm font-medium tracking-wide hover:bg-brandAccent/85 transition-all duration-200 group cursor-pointer shadow-lg shadow-brandAccent/20 rounded-md"
             >
               <span>View Projects</span>
               <ArrowRight size={16} className={`transition-transform duration-200 ${motionEnabled ? 'group-hover:translate-x-1' : ''}`} />
@@ -264,7 +264,7 @@ export default function Hero() {
               href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-cardBg border border-cardBorder text-lightText font-body text-sm font-medium tracking-wide hover:border-brandAccent/50 transition-all duration-200 cursor-pointer"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#3d4150] hover:bg-[#4e5263] text-lightText font-body text-sm font-medium tracking-wide transition-all duration-200 cursor-pointer rounded-md shadow-sm"
             >
               <ExternalLink size={16} />
               <span>View Resume</span>
@@ -273,7 +273,7 @@ export default function Hero() {
             <a
               href="/resume.pdf"
               download="Manjeet_Yadav_Resume.pdf"
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-cardBg border border-cardBorder text-lightText font-body text-sm font-medium tracking-wide hover:border-brandAccent/50 transition-all duration-200 cursor-pointer"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#3d4150] hover:bg-[#4e5263] text-lightText font-body text-sm font-medium tracking-wide transition-all duration-200 cursor-pointer rounded-md shadow-sm"
             >
               <Download size={16} />
               <span>Download Resume</span>
@@ -283,7 +283,7 @@ export default function Hero() {
               <button
                 type="button"
                 onClick={() => scrollTo('#contact')}
-                className="inline-flex items-center gap-2 px-7 py-3.5 bg-cardBg border border-cardBorder text-lightText font-body text-sm font-medium tracking-wide hover:border-brandAccent/50 transition-all duration-200 cursor-pointer"
+                className="inline-flex items-center gap-2 px-7 py-3.5 bg-brandAccent text-lightText font-body text-sm font-medium tracking-wide hover:bg-brandAccent/85 transition-all duration-200 cursor-pointer shadow-lg shadow-brandAccent/20 rounded-md"
               >
                 <span>Get in Touch</span>
               </button>
@@ -315,7 +315,7 @@ export default function Hero() {
             {skills.slice(0, 8).map((skill) => (
               <span
                 key={skill}
-                className="px-3 py-1 text-xs font-mono bg-cardBg border border-cardBorder text-mutedText rounded-none tracking-wide"
+                className="px-3 py-1 text-xs font-mono bg-cardBg border border-cardBorder text-mutedText rounded-md tracking-wide"
               >
                 {skill}
               </span>

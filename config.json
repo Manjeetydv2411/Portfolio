@@ -125,17 +125,17 @@
     ],
     "experience": [
       {
-        "role": "Data Analytics & Intelligence Intern",
-        "organization": "JSS University, Noida",
-        "period": "June 2026 – July 2026",
-        "description": "Engaged in data analytics program focusing on intelligent data processing, backend integration, and analytical pipeline workflows."
+        "role": "MERN Stack Web Development Training",
+        "organization": "3Skill Training",
+        "period": "2 Months (Online)",
+        "description": "Comprehensive online training in MERN Stack technologies including MongoDB, Express.js, React.js, and Node.js."
       }
     ],
     "education": [
       {
         "institution": "JSS Academy of Technical Education, Noida",
-        "degree": "B.Tech in Computer Science and Engineering (CSE)",
-        "period": "2023 – Present"
+        "degree": "B.Tech in Computer Science and Engineering (Data Science)",
+        "period": "2024 – 2028"
       }
     ]
   },

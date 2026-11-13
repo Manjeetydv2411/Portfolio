@@ -97,7 +97,7 @@ export default function Skills() {
               <motion.div
                 key={cat.title}
                 {...animProps}
-                className="group bg-cardBg border border-cardBorder p-6 sm:p-8 relative flex flex-col hover:border-brandAccent/60 transition-all duration-300 shadow-lg hover:-translate-y-1 overflow-hidden"
+                className="group bg-cardBg border border-cardBorder rounded-md p-6 sm:p-8 relative flex flex-col hover:border-brandAccent/60 transition-all duration-300 shadow-lg hover:-translate-y-1 overflow-hidden"
               >
                 {/* Top accent line on hover */}
                 <div className="absolute top-0 left-0 right-0 h-0.5 bg-brandAccent scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-10" />
@@ -125,7 +125,7 @@ export default function Skills() {
                       <span
                         key={item}
                         className={[
-                          'px-3 py-1.5 text-xs font-mono tracking-wide transition-colors duration-200 border',
+                          'px-3 py-1.5 text-xs font-mono tracking-wide transition-colors duration-200 border rounded-md',
                           isWorkflowTool
                             ? 'bg-darkBg/50 border-cardBorder text-mutedText/80 hover:text-lightText hover:border-brandAccent/40'
                             : 'bg-darkBg border-cardBorder text-lightText hover:border-brandAccent',

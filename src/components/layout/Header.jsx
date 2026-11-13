@@ -104,7 +104,7 @@ export default function Header() {
 
           {/* Desktop nav */}
           <nav aria-label="Primary navigation" className="hidden md:flex items-center gap-8">
-            <div className="flex items-center gap-7 bg-cardBg/60 border border-cardBorder px-5 py-2 backdrop-blur-sm">
+            <div className="flex items-center gap-7 bg-cardBg/60 border border-cardBorder px-5 py-2 backdrop-blur-sm rounded-md">
               {visibleLinks.map((link) => {
                 const isActive = activeSection === link.href.replace('#', '')
                 return (
@@ -138,7 +138,7 @@ export default function Header() {
               onClick={toggleMotion}
               aria-label={motionEnabled ? 'Disable animations' : 'Enable animations'}
               title={motionEnabled ? 'Animations: ON (Click to disable)' : 'Animations: OFF (Click to enable)'}
-              className={`p-2.5 border transition-all duration-200 flex items-center gap-1.5 text-xs font-mono cursor-pointer ${
+              className={`p-2.5 border transition-all duration-200 flex items-center gap-1.5 text-xs font-mono cursor-pointer rounded-md ${
                 motionEnabled
                   ? 'border-brandAccent/60 text-brandAccent bg-brandAccent/10 hover:border-brandAccent'
                   : 'border-cardBorder text-mutedText bg-cardBg hover:text-lightText'
@@ -152,7 +152,7 @@ export default function Header() {
             <a
               href="#contact"
               onClick={(e) => { e.preventDefault(); handleNavClick('#contact') }}
-              className="px-5 py-2.5 bg-brandAccent text-lightText font-body text-xs font-medium uppercase tracking-widest hover:bg-brandAccent/90 transition-all duration-200 shadow-md shadow-brandAccent/20 cursor-pointer"
+              className="px-5 py-2.5 bg-brandAccent text-lightText font-body text-xs font-medium uppercase tracking-widest hover:bg-brandAccent/85 transition-all duration-200 shadow-md shadow-brandAccent/20 cursor-pointer rounded-md"
             >
               Let's Talk
             </a>
@@ -164,7 +164,7 @@ export default function Header() {
               type="button"
               onClick={toggleMotion}
               aria-label={motionEnabled ? 'Disable animations' : 'Enable animations'}
-              className={`p-2 border transition-colors flex items-center text-xs font-mono cursor-pointer ${
+              className={`p-2 border transition-colors flex items-center text-xs font-mono cursor-pointer rounded-md ${
                 motionEnabled
                   ? 'border-brandAccent text-brandAccent bg-brandAccent/10'
                   : 'border-cardBorder text-mutedText bg-cardBg'
@@ -175,7 +175,7 @@ export default function Header() {
 
             <button
               type="button"
-              className="flex items-center justify-center w-10 h-10 bg-cardBg border border-cardBorder text-lightText hover:text-brandAccent transition-colors duration-200"
+              className="flex items-center justify-center w-10 h-10 bg-cardBg border border-cardBorder text-lightText hover:text-brandAccent transition-colors duration-200 rounded-md"
               onClick={() => setMenuOpen((v) => !v)}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
@@ -234,7 +234,7 @@ export default function Header() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: motionEnabled ? visibleLinks.length * 0.05 + 0.1 : 0 }}
                 onClick={(e) => { e.preventDefault(); handleNavClick('#contact') }}
-                className="mt-8 w-full py-4 bg-brandAccent text-lightText font-body text-sm font-medium uppercase tracking-widest text-center shadow-lg shadow-brandAccent/20 hover:bg-brandAccent/90 transition-all duration-200 cursor-pointer"
+                className="mt-8 w-full py-4 bg-brandAccent text-lightText font-body text-sm font-medium uppercase tracking-widest text-center shadow-lg shadow-brandAccent/20 hover:bg-brandAccent/85 transition-all duration-200 cursor-pointer rounded-md"
               >
                 Let's Talk
               </motion.a>

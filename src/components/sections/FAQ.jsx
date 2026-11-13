@@ -45,7 +45,7 @@ export default function FAQ() {
 
         <div className="space-y-4">
           {FAQ_ITEMS.map((item, index) => (
-            <div key={index} className="border border-cardBorder bg-cardBg">
+            <div key={index} className="border border-cardBorder bg-cardBg rounded-md">
               <button
                 onClick={() => setActiveIndex(activeIndex === index ? null : index)}
                 className="w-full flex items-center justify-between p-6 text-left"

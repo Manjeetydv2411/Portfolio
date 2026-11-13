@@ -71,7 +71,7 @@ export default function Footer() {
               rel={href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
               aria-label={label}
               title={label}
-              className="w-9 h-9 flex items-center justify-center bg-cardBg border border-cardBorder text-mutedText hover:text-brandAccent hover:border-brandAccent/50 transition-all duration-200"
+              className="w-9 h-9 flex items-center justify-center bg-cardBg border border-cardBorder rounded-md text-mutedText hover:text-brandAccent hover:border-brandAccent/50 transition-all duration-200"
             >
               <Icon size={16} strokeWidth={1.75} />
             </a>

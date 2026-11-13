@@ -46,7 +46,7 @@ export default function About() {
             {...animProps}
             className="lg:col-span-7 flex flex-col gap-6"
           >
-            <div className="bg-cardBg border border-cardBorder p-8 sm:p-10 relative">
+            <div className="bg-cardBg border border-cardBorder rounded-md p-8 sm:p-10 relative">
               <div className="absolute top-0 left-0 w-1.5 h-full bg-brandAccent" />
 
               <h3 className="font-display text-2xl sm:text-3xl uppercase tracking-wide text-lightText mb-4">
@@ -142,8 +142,8 @@ export default function About() {
                     <Briefcase size={16} />
                     <span>Experience</span>
                   </div>
-                  <span className="text-[10px] font-mono uppercase bg-cardBg border border-cardBorder text-lightText px-2.5 py-0.5 tracking-wider">
-                    Internship
+                  <span className="text-[10px] font-mono uppercase bg-cardBg border border-cardBorder text-lightText px-2.5 py-0.5 tracking-wider rounded">
+                    Online Training
                   </span>
                 </div>
 
@@ -160,22 +160,26 @@ export default function About() {
                         {exp.organization}
                       </p>
 
-                      <div className="bg-darkBg border border-cardBorder p-4 space-y-3 mt-2">
+                      <div className="bg-darkBg border border-cardBorder rounded-md p-4 space-y-3 mt-2">
                         <p className="text-sm text-mutedText font-body leading-relaxed">
                           {exp.description}
                         </p>
                         <div className="flex flex-wrap gap-2 pt-2 border-t border-cardBorder">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-cardBg border border-cardBorder text-xs font-mono text-lightText">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-cardBg border border-cardBorder text-xs font-mono text-lightText rounded">
                             <span className="w-1.5 h-1.5 rounded-full bg-brandAccent" />
-                            Intelligent Data Processing
+                            MongoDB
                           </span>
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-cardBg border border-cardBorder text-xs font-mono text-lightText">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-cardBg border border-cardBorder text-xs font-mono text-lightText rounded">
                             <span className="w-1.5 h-1.5 rounded-full bg-brandAccent" />
-                            Backend Integration
+                            Express.js
                           </span>
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-cardBg border border-cardBorder text-xs font-mono text-lightText">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-cardBg border border-cardBorder text-xs font-mono text-lightText rounded">
                             <span className="w-1.5 h-1.5 rounded-full bg-brandAccent" />
-                            Analytical Pipeline Workflows
+                            React.js
+                          </span>
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-cardBg border border-cardBorder text-xs font-mono text-lightText rounded">
+                            <span className="w-1.5 h-1.5 rounded-full bg-brandAccent" />
+                            Node.js
                           </span>
                         </div>
                       </div>
