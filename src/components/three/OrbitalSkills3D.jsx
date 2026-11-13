@@ -198,7 +198,7 @@ export default function OrbitalSkills3D() {
           style={{ transformStyle: 'preserve-3d' }}
         >
           {/* Central Stationary Rectangular Portrait: Top edge at 50% height (vertical center line) extending downward */}
-          <div className="absolute top-[50%] left-1/2 -translate-x-1/2 z-[200] pointer-events-auto -translate-y-[50%]">
+          <div className="absolute top-[50%] left-1/2 -translate-x-1/2 z-[200] pointer-events-auto">
             <div className="w-[100px] h-[130px] sm:w-[180px] sm:h-[230px] lg:w-[210px] lg:h-[270px] border-2 border-brandAccent bg-darkBg shadow-2xl shadow-brandAccent/50 flex items-center justify-center relative">
               {!portraitError ? (
                 <img
