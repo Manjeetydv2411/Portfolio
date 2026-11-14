@@ -46,7 +46,7 @@ export default function Contact() {
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (status.submitting) return
 
@@ -74,25 +74,42 @@ export default function Contact() {
     }
 
     try {
-      const mailtoUrl = `mailto:${contact.email}?subject=${encodeURIComponent(
-        `[Portfolio Contact] ${formData.subject}`
-      )}&body=${encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      )}`
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api'
+      const response = await fetch(`${apiBaseUrl}/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          subject: formData.subject.trim(),
+          message: formData.message.trim(),
+        }),
+      })
 
-      setTimeout(() => {
-        window.location.href = mailtoUrl
-        setStatus({
-          submitting: false,
-          success: true,
-          error: '',
-        })
-      }, 400)
-    } catch {
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to send message. Please try again.')
+      }
+
+      setStatus({
+        submitting: false,
+        success: true,
+        error: '',
+      })
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+      })
+    } catch (err) {
       setStatus({
         submitting: false,
         success: false,
-        error: 'Failed to open email client. Please email directly at ' + contact.email,
+        error: err.message || 'Network error. Please check your connection and try again.',
       })
     }
   }
@@ -279,11 +296,11 @@ export default function Contact() {
                   Send a Message
                 </h3>
                 <span className="text-[10px] font-mono uppercase bg-darkBg border border-cardBorder px-2.5 py-1 text-mutedText">
-                  Mailto Integration
+                  API Integration
                 </span>
               </div>
               <p className="text-mutedText text-xs font-mono uppercase tracking-wider mb-6">
-                Direct form-to-client transmission
+                Secure REST API transmission
               </p>
 
               {status.error && (
@@ -296,7 +313,7 @@ export default function Contact() {
               {status.success && (
                 <div role="status" className="p-4 bg-emerald-500/10 border border-emerald-500/40 flex items-center gap-3 text-lightText text-sm">
                   <CheckCircle2 size={18} className="text-emerald-400 shrink-0" />
-                  <span>Prepared email client! Please complete sending from your mail application.</span>
+                  <span>Message sent successfully! Thank you for reaching out.</span>
                 </div>
               )}
 
@@ -414,7 +431,7 @@ export default function Contact() {
                 {status.submitting ? (
                   <>
                     <Loader2 size={16} className="animate-spin" />
-                    <span>Preparing Mail Client...</span>
+                    <span>Sending Message...</span>
                   </>
                 ) : (
                   <>

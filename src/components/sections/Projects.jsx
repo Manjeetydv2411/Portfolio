@@ -1,22 +1,55 @@
-import { useState, useMemo, useRef } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { FolderGit2, ExternalLink, Code2, ArrowUpRight, Star, Cpu } from 'lucide-react'
-import { projects, categories } from '../../config/site.js'
+import { projects as staticProjects, categories } from '../../config/site.js'
 import { useMotion } from '../../config/MotionContext.jsx'
 import ProjectModal from '../ui/ProjectModal.jsx'
 
 export default function Projects() {
   const { motionEnabled } = useMotion()
+  const [projectList, setProjectList] = useState(staticProjects)
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [activeProject, setActiveProject] = useState(null)
 
   const imageRefs = useRef({})
 
+  useEffect(() => {
+    const fetchDynamicProjects = async () => {
+      try {
+        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api'
+        const res = await fetch(`${apiBaseUrl}/projects`)
+        const data = await res.json()
+        if (res.ok && data.data && data.data.length > 0) {
+          // Map MongoDB project fields to match frontend expectations if necessary
+          const mapped = data.data.map(p => ({
+            id: p._id,
+            title: p.title,
+            category: p.category || 'Full-Stack Web App',
+            year: p.year || '2026',
+            summary: p.summary,
+            description: p.description,
+            tools: p.tools || [],
+            coverImage: p.coverImage || '',
+            liveUrl: p.liveUrl || '',
+            sourceUrl: p.sourceUrl || '',
+            backendArchitecture: p.backendArchitecture || '',
+            keyFeatures: p.keyFeatures || [],
+            featured: p.featured,
+          }))
+          setProjectList(mapped)
+        }
+      } catch {
+        // Fallback to static config projects on network error
+      }
+    }
+    fetchDynamicProjects()
+  }, [])
+
   const filteredProjects = useMemo(() => {
-    return projects.filter((project) =>
+    return projectList.filter((project) =>
       selectedCategory === 'All' || project.category === selectedCategory
     )
-  }, [selectedCategory])
+  }, [projectList, selectedCategory])
 
   const allCategories = ['All', ...categories]
 
@@ -29,13 +62,12 @@ export default function Projects() {
     if (!imgEl) return
 
     const card = e.currentTarget.getBoundingClientRect()
-    const x = e.clientX - card.left // mouse x inside card
-    const y = e.clientY - card.top  // mouse y inside card
+    const x = e.clientX - card.left
+    const y = e.clientY - card.top
 
     const centerX = card.width / 2
     const centerY = card.height / 2
 
-    // Calculate vertical-only offset (-1 to 1 range), max 4px vertical parallax
     const moveY = ((y - centerY) / centerY) * 4
 
     imgEl.style.transform = `translate(0px, ${moveY}px) scale(1.05)`
@@ -120,7 +152,6 @@ export default function Projects() {
                   }
                 : { initial: { opacity: 1, y: 0 } }
 
-              // Calculate sticky top offset so cards stack cleanly below header with spacing
               const stickyTop = 100 + index * 24
 
               return (
@@ -136,10 +167,8 @@ export default function Projects() {
                   onMouseLeave={() => handleCardMouseLeave(project.id)}
                   className="group bg-cardBg border border-cardBorder rounded-md flex flex-col md:flex-row hover:border-brandAccent/60 transition-all duration-300 relative overflow-hidden shadow-2xl"
                 >
-                  {/* Top accent line on hover */}
                   <div className="absolute top-0 left-0 right-0 h-0.5 bg-brandAccent scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-20" />
 
-                  {/* Optional cover image preview with dark editorial gradient */}
                   {project.coverImage && (
                     <div className="relative w-full md:w-5/12 h-56 md:h-auto bg-darkBg border-r border-cardBorder overflow-hidden shrink-0">
                       <img
@@ -156,7 +185,6 @@ export default function Projects() {
 
                   <div className="p-8 sm:p-10 flex flex-col flex-1 gap-5">
 
-                    {/* Meta: Category + Year + Featured badge */}
                     <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
                       <span className="text-brandAccent uppercase tracking-widest">{project.category}</span>
                       <span className="text-mutedText">·</span>
@@ -169,7 +197,6 @@ export default function Projects() {
                       )}
                     </div>
 
-                    {/* Title */}
                     <h3
                       className="font-display text-3xl sm:text-4xl uppercase tracking-wide text-lightText group-hover:text-brandAccent transition-colors duration-200 leading-tight cursor-pointer"
                       onClick={() => setActiveProject(project)}
@@ -177,12 +204,10 @@ export default function Projects() {
                       {project.title}
                     </h3>
 
-                    {/* Summary */}
                     <p className="text-mutedText font-body text-base leading-relaxed">
                       {project.summary}
                     </p>
 
-                    {/* Backend Architecture Highlight if present */}
                     {project.backendArchitecture && (
                       <div className="bg-darkBg border border-cardBorder p-3.5 text-xs font-mono text-mutedText flex items-start gap-2.5">
                         <Cpu size={15} className="text-brandAccent shrink-0 mt-0.5" />
@@ -190,7 +215,6 @@ export default function Projects() {
                       </div>
                     )}
 
-                    {/* Tech badges */}
                     {project.tools && project.tools.length > 0 && (
                       <div className="flex flex-wrap gap-2 pt-1">
                         {project.tools.map((tool) => (
@@ -204,7 +228,6 @@ export default function Projects() {
                       </div>
                     )}
 
-                    {/* Action row */}
                     <div className="flex items-center gap-4 pt-4 mt-auto border-t border-cardBorder">
                       <button
                         type="button"

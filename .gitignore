@@ -30,3 +30,7 @@ dist-ssr
 
 # Deployment and local configuration
 .vercel
+
+# Sensitive browser/session exports
+cookies.txt
+server/cookies.txt
