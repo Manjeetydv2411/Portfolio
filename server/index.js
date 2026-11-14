@@ -21,6 +21,8 @@ connectDB();
 
 const app = express();
 
+app.set('trust proxy', 1);
+
 // Helmet Security Headers with CSP allowing Cloudinary and Google Fonts
 app.use(
   helmet({
