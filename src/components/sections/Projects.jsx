@@ -16,7 +16,7 @@ export default function Projects() {
   useEffect(() => {
     const fetchDynamicProjects = async () => {
       try {
-        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api'
+        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? '/api' : 'http://localhost:5001/api')
         const res = await fetch(`${apiBaseUrl}/projects`)
         const data = await res.json()
         if (res.ok && data.data && data.data.length > 0) {

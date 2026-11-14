@@ -109,7 +109,7 @@ export default function AdminDashboard({ admin, onLogout }) {
   const [uploadingImage, setUploadingImage] = useState(false)
   const [uploadError, setUploadError] = useState('')
 
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api'
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? '/api' : 'http://localhost:5001/api')
 
   // Fetch Analytics Overview & Stats
   const fetchOverview = useCallback(async () => {
