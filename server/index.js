@@ -37,19 +37,22 @@ app.use(
   })
 );
 
-// Robust production CORS configuration with credentials support
+// Robust CORS configuration: exact Vercel frontend origin in production, localhost in development
 const allowedOrigins = [
   process.env.CLIENT_URL,
-  'http://localhost:5173',
-  'http://localhost:3000',
-].filter(Boolean);
+  'https://myportfolio-azure-tau-97.vercel.app',
+];
+
+if (process.env.NODE_ENV !== 'production') {
+  allowedOrigins.push('http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173');
+}
 
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin && process.env.NODE_ENV !== 'production') {
       return callback(null, true);
     }
-    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));

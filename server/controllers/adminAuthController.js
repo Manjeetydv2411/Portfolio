@@ -8,13 +8,13 @@ const generateToken = (id) => {
   });
 };
 
-// Helper to set cookie options based on environment
+// Helper to set cookie options based on environment for cross-site deployment (Vercel + Render)
 const getCookieOptions = () => {
   const isProduction = process.env.NODE_ENV === 'production';
   return {
     httpOnly: true,
-    secure: isProduction, // true in production (HTTPS), false in dev
-    sameSite: isProduction ? 'strict' : 'lax',
+    secure: isProduction, // true in production (HTTPS)
+    sameSite: isProduction ? 'none' : 'lax', // 'none' required for cross-site frontend (Vercel) to backend (Render)
     maxAge: 24 * 60 * 60 * 1000, // 1 day
   };
 };
@@ -86,8 +86,11 @@ export const getAdminProfile = async (req, res, next) => {
 // @access  Public
 export const logoutAdmin = async (req, res, next) => {
   try {
+    const isProduction = process.env.NODE_ENV === 'production';
     res.cookie('jwt', '', {
       httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
       expires: new Date(0),
     });
 
