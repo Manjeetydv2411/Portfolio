@@ -19,7 +19,7 @@ export const uploadToCloudinary = (fileBuffer) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         folder: 'portfolio/projects',
-        resource_type: 'auto',
+        resource_type: 'image',
       },
       (error, result) => {
         if (error) return reject(error);
