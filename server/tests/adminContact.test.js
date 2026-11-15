@@ -2,14 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert';
 import jwt from 'jsonwebtoken';
 import express from 'express';
-import mongoose from 'mongoose';
-import { protectAdmin } from '../middleware/authMiddleware.js';
-import {
-  getMessages,
-  getMessageById,
-  updateMessageStatus,
-  deleteMessage,
-} from '../controllers/adminContactController.js';
+import adminContactRoutes from '../routes/adminContactRoutes.js';
 import ContactMessage from '../models/ContactMessage.js';
 import Admin from '../models/Admin.js';
 
@@ -35,14 +28,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Setup Test Router
-const router = express.Router();
-router.use(protectAdmin);
-router.route('/').get(getMessages);
-router.route('/:id').get(getMessageById);
-router.route('/:id/status').patch(updateMessageStatus);
-router.route('/:id').delete(deleteMessage);
-app.use('/api/admin/messages', router);
+// Mount actual production router (applies protectAdmin middleware automatically)
+app.use('/api/admin/messages', adminContactRoutes);
 
 // Error handler preserving status code set on response
 app.use((err, req, res, next) => {
@@ -50,13 +37,24 @@ app.use((err, req, res, next) => {
   res.status(status).json({ success: false, message: err.message });
 });
 
-// Mock IDs
+// Mock IDs & State trackers
 const mockAdminId = '60d5ec49f1f2e10015b3c8f8';
 const mockMessageId = '60d5ec49f1f2e10015b3c8f9';
+const nonExistentMessageId = '60d5ec49f1f2e10015b3c8fa';
 
-// Mock ContactMessage Model with chainable query mocks
-ContactMessage.countDocuments = () => Promise.resolve(1);
-ContactMessage.find = (query) => {
+let lastQuery = null;
+let lastCountQuery = null;
+let savedMessageStatus = null;
+let messageDeleted = false;
+
+// Mock ContactMessage Model with query introspection and chainable query mocks
+ContactMessage.countDocuments = (q) => {
+  lastCountQuery = q;
+  return Promise.resolve(15); // Total count for pagination testing
+};
+
+ContactMessage.find = (q) => {
+  lastQuery = q;
   const resultList = [{
     _id: mockMessageId,
     name: 'Test User',
@@ -68,8 +66,14 @@ ContactMessage.find = (query) => {
   }];
   const queryMock = {
     sort: () => queryMock,
-    skip: () => queryMock,
-    limit: () => Promise.resolve(resultList),
+    skip: (skipVal) => {
+      queryMock.skipVal = skipVal;
+      return queryMock;
+    },
+    limit: (limitVal) => {
+      queryMock.limitVal = limitVal;
+      return Promise.resolve(resultList);
+    },
     select: () => Promise.resolve(resultList),
     then: (resolve, reject) => Promise.resolve(resultList).then(resolve, reject),
   };
@@ -77,29 +81,28 @@ ContactMessage.find = (query) => {
 };
 
 ContactMessage.findById = (id) => {
+  const exists = id === mockMessageId;
+  const mockMsg = exists ? {
+    _id: mockMessageId,
+    name: 'Test User',
+    email: 'test@example.com',
+    subject: 'Test Subject',
+    message: 'Test Message',
+    status: 'unread',
+    createdAt: new Date(),
+    save: function() {
+      savedMessageStatus = this.status;
+      return Promise.resolve(this);
+    },
+    deleteOne: function() {
+      messageDeleted = true;
+      return Promise.resolve(this);
+    }
+  } : null;
+
   const queryMock = {
-    select: () => Promise.resolve(id === mockMessageId ? {
-      _id: mockMessageId,
-      name: 'Test User',
-      email: 'test@example.com',
-      subject: 'Test Subject',
-      message: 'Test Message',
-      status: 'unread',
-      createdAt: new Date(),
-      save: () => Promise.resolve(),
-      deleteOne: () => Promise.resolve()
-    } : null),
-    then: (resolve, reject) => Promise.resolve(id === mockMessageId ? {
-      _id: mockMessageId,
-      name: 'Test User',
-      email: 'test@example.com',
-      subject: 'Test Subject',
-      message: 'Test Message',
-      status: 'unread',
-      createdAt: new Date(),
-      save: () => Promise.resolve(),
-      deleteOne: () => Promise.resolve()
-    } : null).then(resolve, reject),
+    select: () => Promise.resolve(mockMsg),
+    then: (resolve, reject) => Promise.resolve(mockMsg).then(resolve, reject),
   };
   return queryMock;
 };
@@ -121,7 +124,8 @@ Admin.findById = (id) => {
   return queryMock;
 };
 
-const generateTestToken = () => jwt.sign({ id: mockAdminId }, process.env.JWT_SECRET);
+const generateValidToken = () => jwt.sign({ id: mockAdminId }, process.env.JWT_SECRET);
+const generateExpiredToken = () => jwt.sign({ id: mockAdminId }, process.env.JWT_SECRET, { expiresIn: '-1s' });
 
 let server;
 let baseUrl;
@@ -142,17 +146,31 @@ test.after(async () => {
   });
 });
 
-test('Admin Contact API: Unauthenticated access rejected (401)', async () => {
+// 1. Authentication Tests
+test('Auth: Unauthenticated access rejected (401)', async () => {
   const res = await fetch(`${baseUrl}/api/admin/messages`);
   assert.strictEqual(res.status, 401);
 });
 
-test('Admin Contact API: Valid admin access and listing (200)', async () => {
-  const token = generateTestToken();
+test('Auth: Malformed JWT rejected (401)', async () => {
   const res = await fetch(`${baseUrl}/api/admin/messages`, {
-    headers: {
-      Cookie: `jwt=${token}`,
-    },
+    headers: { Cookie: 'jwt=malformed.jwt.token' }
+  });
+  assert.strictEqual(res.status, 401);
+});
+
+test('Auth: Expired JWT rejected (401)', async () => {
+  const expiredToken = generateExpiredToken();
+  const res = await fetch(`${baseUrl}/api/admin/messages`, {
+    headers: { Cookie: `jwt=${expiredToken}` }
+  });
+  assert.strictEqual(res.status, 401);
+});
+
+test('Auth: Valid admin access (200)', async () => {
+  const token = generateValidToken();
+  const res = await fetch(`${baseUrl}/api/admin/messages`, {
+    headers: { Cookie: `jwt=${token}` },
   });
   const data = await res.json();
   assert.strictEqual(res.status, 200);
@@ -160,32 +178,90 @@ test('Admin Contact API: Valid admin access and listing (200)', async () => {
   assert.strictEqual(Array.isArray(data.data), true);
 });
 
-test('Admin Contact API: Get message by ID (200)', async () => {
-  const token = generateTestToken();
-  const res = await fetch(`${baseUrl}/api/admin/messages/${mockMessageId}`, {
-    headers: {
-      Cookie: `jwt=${token}`,
-    },
+// 2. Pagination Tests
+test('Pagination: Verify page, limit, skip calculation, and metadata (200)', async () => {
+  const token = generateValidToken();
+  const res = await fetch(`${baseUrl}/api/admin/messages?page=2&limit=5`, {
+    headers: { Cookie: `jwt=${token}` },
   });
   const data = await res.json();
   assert.strictEqual(res.status, 200);
   assert.strictEqual(data.success, true);
-  assert.strictEqual(data.data._id, mockMessageId);
+  assert.deepStrictEqual(data.pagination, {
+    total: 15,
+    page: 2,
+    pages: 3, // Math.ceil(15 / 5)
+    limit: 5,
+  });
 });
 
-test('Admin Contact API: Invalid message ID handling (400)', async () => {
-  const token = generateTestToken();
-  const res = await fetch(`${baseUrl}/api/admin/messages/invalid-id-format`, {
-    headers: {
-      Cookie: `jwt=${token}`,
-    },
+// 3. Search Tests
+test('Search: Verify search query construction and regex escaping for name, email, subject (200)', async () => {
+  const token = generateValidToken();
+  lastQuery = null;
+  const searchTerm = 'alice.smith(test)';
+  const res = await fetch(`${baseUrl}/api/admin/messages?search=${encodeURIComponent(searchTerm)}`, {
+    headers: { Cookie: `jwt=${token}` },
+  });
+  const data = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.ok(lastQuery, 'Query object should be passed to ContactMessage.find');
+  assert.ok(lastQuery.$or, 'Query should contain $or for multi-field search');
+  assert.strictEqual(lastQuery.$or.length, 3);
+  // Verify regex special characters like parentheses and dots are escaped properly in the source
+  const expectedEscapedRegex = 'alice\\.smith\\(test\\)';
+  assert.strictEqual(lastQuery.$or[0].name.source, expectedEscapedRegex);
+  assert.strictEqual(lastQuery.$or[1].email.source, expectedEscapedRegex);
+  assert.strictEqual(lastQuery.$or[2].subject.source, expectedEscapedRegex);
+});
+
+// 4. Status Filtering Tests
+test('Status Filtering: Verify valid status filters (unread, read, replied) (200)', async () => {
+  const token = generateValidToken();
+
+  for (const status of ['unread', 'read', 'replied']) {
+    lastQuery = null;
+    const res = await fetch(`${baseUrl}/api/admin/messages?status=${status}`, {
+      headers: { Cookie: `jwt=${token}` },
+    });
+    assert.strictEqual(res.status, 200);
+    assert.strictEqual(lastQuery.status, status);
+  }
+});
+
+test('Status Filtering: Verify invalid status query parameter is ignored by controller (200)', async () => {
+  const token = generateValidToken();
+  lastQuery = null;
+  const res = await fetch(`${baseUrl}/api/admin/messages?status=malicious_status`, {
+    headers: { Cookie: `jwt=${token}` },
+  });
+  assert.strictEqual(res.status, 200);
+  assert.strictEqual(lastQuery.status, undefined);
+});
+
+// 5. Message ID and Not Found Tests
+test('Message ID: Invalid message ID format returns 400', async () => {
+  const token = generateValidToken();
+  const res = await fetch(`${baseUrl}/api/admin/messages/not-an-object-id`, {
+    headers: { Cookie: `jwt=${token}` },
   });
   assert.strictEqual(res.status, 400);
 });
 
-test('Admin Contact API: Update message status (200)', async () => {
-  const token = generateTestToken();
-  const res = await fetch(`${baseUrl}/api/admin/messages/${mockMessageId}/status`, {
+test('Not Found: GET non-existent valid message ID returns 404', async () => {
+  const token = generateValidToken();
+  const res = await fetch(`${baseUrl}/api/admin/messages/${nonExistentMessageId}`, {
+    headers: { Cookie: `jwt=${token}` },
+  });
+  const data = await res.json();
+  assert.strictEqual(res.status, 404);
+  assert.strictEqual(data.success, false);
+  assert.strictEqual(data.message, 'Contact message not found.');
+});
+
+test('Not Found: PATCH status for non-existent valid message ID returns 404', async () => {
+  const token = generateValidToken();
+  const res = await fetch(`${baseUrl}/api/admin/messages/${nonExistentMessageId}/status`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -194,32 +270,63 @@ test('Admin Contact API: Update message status (200)', async () => {
     body: JSON.stringify({ status: 'read' }),
   });
   const data = await res.json();
-  assert.strictEqual(res.status, 200);
-  assert.strictEqual(data.success, true);
+  assert.strictEqual(res.status, 404);
+  assert.strictEqual(data.success, false);
+  assert.strictEqual(data.message, 'Contact message not found.');
 });
 
-test('Admin Contact API: Invalid status rejection (400)', async () => {
-  const token = generateTestToken();
+test('Not Found: DELETE non-existent valid message ID returns 404', async () => {
+  const token = generateValidToken();
+  const res = await fetch(`${baseUrl}/api/admin/messages/${nonExistentMessageId}`, {
+    method: 'DELETE',
+    headers: { Cookie: `jwt=${token}` },
+  });
+  const data = await res.json();
+  assert.strictEqual(res.status, 404);
+  assert.strictEqual(data.success, false);
+  assert.strictEqual(data.message, 'Contact message not found.');
+});
+
+// 6. Update Status & Delete Actions (Behavioral verification)
+test('Actions: Update message status successfully (200)', async () => {
+  const token = generateValidToken();
+  savedMessageStatus = null;
   const res = await fetch(`${baseUrl}/api/admin/messages/${mockMessageId}/status`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
       Cookie: `jwt=${token}`,
     },
-    body: JSON.stringify({ status: 'invalid-status' }),
-  });
-  assert.strictEqual(res.status, 400);
-});
-
-test('Admin Contact API: Delete message (200)', async () => {
-  const token = generateTestToken();
-  const res = await fetch(`${baseUrl}/api/admin/messages/${mockMessageId}`, {
-    method: 'DELETE',
-    headers: {
-      Cookie: `jwt=${token}`,
-    },
+    body: JSON.stringify({ status: 'replied' }),
   });
   const data = await res.json();
   assert.strictEqual(res.status, 200);
   assert.strictEqual(data.success, true);
+  assert.strictEqual(savedMessageStatus, 'replied');
+});
+
+test('Actions: Invalid status value rejected with 400', async () => {
+  const token = generateValidToken();
+  const res = await fetch(`${baseUrl}/api/admin/messages/${mockMessageId}/status`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Cookie: `jwt=${token}`,
+    },
+    body: JSON.stringify({ status: 'unknown_status' }),
+  });
+  assert.strictEqual(res.status, 400);
+});
+
+test('Actions: Delete message successfully (200)', async () => {
+  const token = generateValidToken();
+  messageDeleted = false;
+  const res = await fetch(`${baseUrl}/api/admin/messages/${mockMessageId}`, {
+    method: 'DELETE',
+    headers: { Cookie: `jwt=${token}` },
+  });
+  const data = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.strictEqual(data.success, true);
+  assert.strictEqual(messageDeleted, true);
 });
