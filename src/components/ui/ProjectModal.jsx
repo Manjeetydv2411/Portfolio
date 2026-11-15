@@ -145,7 +145,7 @@ export default function ProjectModal({ project, onClose }) {
 
         {/* Action Links */}
         <div className="flex flex-wrap items-center gap-4 pt-6 border-t border-cardBorder">
-          {project.liveUrl && project.liveUrl.trim() !== '' && (
+          {project.liveUrl && project.liveUrl.trim() !== '' ? (
             <a
               href={project.liveUrl}
               target="_blank"
@@ -155,6 +155,17 @@ export default function ProjectModal({ project, onClose }) {
               <span>Live Demo</span>
               <ExternalLink size={15} />
             </a>
+          ) : (
+            <button
+              type="button"
+              disabled
+              aria-disabled="true"
+              aria-label={`${project.title} live demo (coming soon)`}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-cardBg border border-cardBorder text-lightText/40 font-body text-sm font-medium tracking-wide rounded-md cursor-not-allowed opacity-75"
+            >
+              <span>Live Demo</span>
+              <ExternalLink size={15} />
+            </button>
           )}
 
           {project.sourceUrl && project.sourceUrl.trim() !== '' && (

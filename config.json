@@ -85,22 +85,22 @@
       {
         "id": "developer-portfolio",
         "title": "Cinematic Developer Portfolio",
-        "category": "Frontend / Creative UX",
+        "category": "MERN Stack",
         "year": "2026",
         "summary": "Editorial, high-performance developer portfolio with custom Framer Motion animations.",
         "description": "A dark-mode personal portfolio built with React, Node.js, Express.js, Framer Motion, and Tailwind CSS. Features accessible category filtering, interactive project dialogs, smooth scroll-linked animations, and responsive performance across devices.",
         "role": "Frontend Architect",
-        "tools": ["MongoDB", "Express.js", "React 19", "Node.js", "Framer Motion", "Tailwind CSS"],
+        "tools": ["React 19", "Node.js", "Express.js", "MongoDB", "Tailwind CSS v4", "Framer Motion"],
         "coverImage": "/images/projects/portfolio.jpg",
         "gallery": [],
         "videoUrl": "",
-        "liveUrl": "",
-        "sourceUrl": "",
+        "liveUrl": "https://myportfolio-azure-tau-97.vercel.app",
+        "sourceUrl": "https://github.com/Manjeetydv2411/Portfolio",
         "featured": true
       }
     ],
     "featuredProjectIds": ["rescuegrid-ai", "edtech-platform", "real-estate-platform", "developer-portfolio"],
-    "categories": ["AI / Web Application", "Full-Stack Web App", "Web Application", "Frontend / Creative UX"],
+    "categories": ["AI / Web Application", "Full-Stack Web App", "Web Application", "MERN Stack"],
     "skills": [
       "JavaScript",
       "React",

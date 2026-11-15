@@ -251,10 +251,16 @@ export default function Projects() {
                           Live
                         </a>
                       ) : (
-                        <span className="ml-auto inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-mono bg-cardBg border border-cardBorder text-lightText/50 rounded-md cursor-not-allowed">
+                        <button
+                          type="button"
+                          disabled
+                          aria-disabled="true"
+                          aria-label={`${project.title} live demo (coming soon)`}
+                          className="ml-auto inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-mono bg-cardBg border border-cardBorder text-lightText/40 rounded-md cursor-not-allowed opacity-75"
+                        >
                           <ExternalLink size={15} />
-                          Coming Soon
-                        </span>
+                          Live
+                        </button>
                       )}
 
                       {project.sourceUrl && project.sourceUrl.trim() !== '' && (
