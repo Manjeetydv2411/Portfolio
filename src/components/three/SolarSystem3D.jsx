@@ -102,6 +102,7 @@ export default function SolarSystem3D() {
   const [selectedPlanet, setSelectedPlanet] = useState(PLANETS[0])
   const [hoveredPlanet, setHoveredPlanet] = useState(null)
 
+  const containerRef = useRef(null)
   const planetRefs = useRef({})
   const animFrameRef = useRef(null)
   const pausedElapsedRef = useRef(0)
@@ -111,17 +112,37 @@ export default function SolarSystem3D() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setOrbitScale(0.6)
-      } else if (window.innerWidth < 1024) {
-        setOrbitScale(0.8)
+      if (!containerRef.current) return
+
+      // Calculate based on container width rather than window width
+      const containerWidth = containerRef.current.offsetWidth
+
+      // The SVG viewBox is 800 wide. We need to fit within that.
+      // Based on the planets' max radiusX (345), 345 * 2 = 690.
+      // With padding, it should comfortably fit inside 800.
+      // The container itself is `w-full`.
+
+      if (containerWidth < 380) {
+        setOrbitScale(0.32) // Tighter fit for very narrow 319px/320px screens
+      } else if (containerWidth < 640) {
+        setOrbitScale(0.46) // Tighter fit for mobile screens
+      } else if (containerWidth < 1024) {
+        setOrbitScale(0.8) // Tablet
       } else {
-        setOrbitScale(1)
+        setOrbitScale(1) // Desktop
       }
     }
+
     handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+
+    const observer = new ResizeObserver(handleResize)
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
+    }
+
+    return () => {
+      observer.disconnect()
+    }
   }, [])
 
   useEffect(() => {
@@ -180,15 +201,21 @@ export default function SolarSystem3D() {
       </div>
 
       {/* Solar System Stage with overflow-visible to prevent clipping */}
-      <div className="relative w-full h-[440px] sm:h-[500px] flex items-center justify-center my-6 overflow-visible">
+      <div ref={containerRef} className="relative w-full h-[440px] sm:h-[500px] flex items-center justify-center my-6 overflow-visible">
 
         {/* Absolute Centered Canvas / SVG Container */}
         <div className="absolute inset-0 flex items-center justify-center overflow-visible pointer-events-none">
-          <svg className="w-full h-full overflow-visible" viewBox="-400 -220 800 440">
+          <svg className="w-full h-full overflow-visible" viewBox="-400 -220 800 440" style={{ maxWidth: '100%', maxHeight: '100%' }}>
             <defs>
               <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#e32b3c" stopOpacity="0.85" />
+                <stop offset="0%" stopColor="#e32b3c" stopOpacity={orbitScale < 0.7 ? "0.95" : "0.85"} />
+                <stop offset="60%" stopColor="#d97706" stopOpacity={orbitScale < 0.7 ? "0.5" : "0.3"} />
                 <stop offset="100%" stopColor="#090909" stopOpacity="0" />
+              </radialGradient>
+              <radialGradient id="sunCore" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#1c1d22" stopOpacity="1" />
+                <stop offset="85%" stopColor="#121212" stopOpacity="1" />
+                <stop offset="100%" stopColor="#e32b3c" stopOpacity="0.8" />
               </radialGradient>
             </defs>
 
@@ -210,10 +237,45 @@ export default function SolarSystem3D() {
 
             {/* Central Sun */}
             <g className="cursor-pointer pointer-events-auto" onClick={() => setSelectedPlanet(PLANETS[0])}>
+              {/* Outer warm halo / glow (larger on mobile for visibility) */}
+              <circle
+                cx="0"
+                cy="0"
+                r={orbitScale < 0.7 ? 62 * orbitScale : 48 * orbitScale}
+                fill="url(#sunGlow)"
+              />
+              {/* Golden/Amber accent ring for mobile clarity */}
+              {orbitScale < 0.7 && (
+                <circle
+                  cx="0"
+                  cy="0"
+                  r={42 * orbitScale}
+                  fill="none"
+                  stroke="#d97706"
+                  strokeWidth="2"
+                  strokeOpacity="0.6"
+                />
+              )}
               <circle cx="0" cy="0" r={48 * orbitScale} fill="url(#sunGlow)" />
-              <circle cx="0" cy="0" r={34 * orbitScale} fill="#121212" stroke="#e32b3c" strokeWidth={2.5 * orbitScale} />
-              <text x="0" y="0" textAnchor="middle" dominantBaseline="middle" fill="#f2efeb" fontSize={8 * orbitScale} fontFamily="monospace" fontWeight="bold">
-                MY JOURNEY
+              <circle
+                cx="0"
+                cy="0"
+                r={34 * orbitScale}
+                fill="url(#sunCore)"
+                stroke="#d97706"
+                strokeWidth={orbitScale < 0.7 ? 3 * orbitScale : 2.5 * orbitScale}
+              />
+              <text
+                x="0"
+                y="0"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill="#f2efeb"
+                fontSize={orbitScale < 0.7 ? 9 * orbitScale : 8 * orbitScale}
+                fontFamily="monospace"
+                fontWeight="bold"
+              >
+                {orbitScale < 0.7 ? 'JOURNEY' : 'MY JOURNEY'}
               </text>
             </g>
           </svg>
@@ -250,11 +312,11 @@ export default function SolarSystem3D() {
                       : 'bg-darkBg border-cardBorder hover:border-brandAccent z-10',
                   ].join(' ')}
                   style={{
-                    width: `${planet.size * 2.2}px`,
-                    height: `${planet.size * 2.2}px`,
+                    width: `${planet.size * (orbitScale < 0.7 ? 1.6 : 2.2)}px`,
+                    height: `${planet.size * (orbitScale < 0.7 ? 1.6 : 2.2)}px`,
                   }}
                 >
-                  <Icon size={planet.size} className={isSelected ? 'text-lightText' : 'text-brandAccent'} />
+                  <Icon size={planet.size * (orbitScale < 0.7 ? 0.8 : 1)} className={isSelected ? 'text-lightText' : 'text-brandAccent'} />
 
                   {/* Stage Number Badge */}
                   <span className="absolute -top-2.5 -right-2.5 px-1.5 py-0.5 bg-darkBg border border-brandAccent text-[9px] font-mono font-bold text-brandAccent shadow-md">
@@ -262,7 +324,7 @@ export default function SolarSystem3D() {
                   </span>
 
                   {/* Planet Label Tooltip */}
-                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-darkBg border border-cardBorder text-[10px] font-mono text-lightText whitespace-nowrap opacity-90 group-hover:opacity-100 shadow-lg pointer-events-none z-40">
+                  <div className="hidden sm:block absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-darkBg border border-cardBorder text-[10px] font-mono text-lightText whitespace-nowrap opacity-90 group-hover:opacity-100 shadow-lg pointer-events-none z-40">
                     {planet.name}
                   </div>
                 </div>
