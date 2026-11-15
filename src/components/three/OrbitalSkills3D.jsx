@@ -78,6 +78,7 @@ export default function OrbitalSkills3D() {
   const [radius, setRadius] = useState(320)
 
   const cardRefs = useRef({})
+  const containerRef = useRef(null)
   const animFrameRef = useRef(null)
   const angleRef = useRef(0)
   const lastTimeRef = useRef(performance.now())
@@ -85,8 +86,13 @@ export default function OrbitalSkills3D() {
   // Responsive radius calculation
   useEffect(() => {
     const updateRadius = () => {
-      const width = window.innerWidth
-      if (width < 640) {
+      if (!containerRef.current) return
+
+      const width = containerRef.current.offsetWidth
+
+      if (width < 400) {
+        setRadius(width * 0.35) // Aggressive reduction for small mobile
+      } else if (width < 640) {
         setRadius(170) // Mobile
       } else if (width < 1024) {
         setRadius(250) // Tablet
@@ -94,9 +100,19 @@ export default function OrbitalSkills3D() {
         setRadius(330) // Desktop
       }
     }
+
+    // Initial calculation
     updateRadius()
-    window.addEventListener('resize', updateRadius)
-    return () => window.removeEventListener('resize', updateRadius)
+
+    // Resize observer for container-based responsiveness
+    const observer = new ResizeObserver(updateRadius)
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
+    }
+
+    return () => {
+      observer.disconnect()
+    }
   }, [])
 
   useEffect(() => {
@@ -127,7 +143,12 @@ export default function OrbitalSkills3D() {
         const y = Math.cos(angle) * verticalAmplitude
 
         // 2. Coherent scale: rear panels smaller, front panels larger
-        const scale = 0.68 + normalizedZ * 0.52 // 0.68 at back to 1.20 at front
+        let scale = 0.68 + normalizedZ * 0.52 // 0.68 at back to 1.20 at front
+
+        // If the radius is small, reduce the overall scale to ensure it fits within container
+        if (radius < 200) {
+          scale *= 0.8
+        }
 
         // 3. Coherent opacity: rear panels clearly visible (min 0.65), front panels prominent (1.0)
         const opacity = 0.65 + normalizedZ * 0.35 // 0.65 at back to 1.0 at front
@@ -175,6 +196,7 @@ export default function OrbitalSkills3D() {
 
       {/* 3D Carousel Stage */}
       <div
+        ref={containerRef}
         className="relative w-full h-[450px] sm:h-[600px] lg:h-[700px] flex items-center justify-center my-6 overflow-visible"
         style={{ perspective: '1400px' }}
       >
