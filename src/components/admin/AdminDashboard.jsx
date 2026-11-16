@@ -694,44 +694,84 @@ export default function AdminDashboard({ admin, onLogout }) {
 
                       <div className="pt-4">
                         {(() => {
+                          const rangeDays = activityRange === '7' ? 7 : 30;
                           const rawActivity = activityRange === '7' ? (overviewData.activity7Days || []) : (overviewData.activity30Days || []);
-                          const maxCount = Math.max(...rawActivity.map(item => item.count), 1);
 
-                          if (rawActivity.length === 0) {
-                            return (
-                              <div className="py-16 text-center text-mutedText font-mono text-xs uppercase">
-                                No submission activity recorded in this period.
-                              </div>
-                            );
+                          // Build full activity data including zero-count days
+                          const activityMap = {};
+                          rawActivity.forEach((item) => {
+                            activityMap[item._id] = item.count;
+                          });
+
+                          const fullActivity = [];
+                          const today = new Date();
+                          today.setHours(0, 0, 0, 0);
+
+                          for (let i = rangeDays - 1; i >= 0; i--) {
+                            const d = new Date(today);
+                            d.setDate(d.getDate() - i);
+                            const dateStr = d.toISOString().split('T')[0]; // YYYY-MM-DD
+                            const count = activityMap[dateStr] || 0;
+
+                            let label = '';
+                            if (rangeDays === 7) {
+                              label = d.toLocaleDateString('en-US', { weekday: 'short' }); // Mon
+                            } else {
+                              label = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                            }
+
+                            fullActivity.push({
+                              date: dateStr,
+                              label: label,
+                              count: count,
+                            });
                           }
+
+                          const maxCount = Math.max(...fullActivity.map(item => item.count), 1);
 
                           return (
                             <div className="space-y-4">
-                              <div className="h-48 flex items-end gap-2 pt-6 pb-2 px-2 border-b border-cardBorder bg-darkBg/40 rounded-md">
-                                {rawActivity.map((item) => {
-                                  const heightPercent = Math.max(Math.round((item.count / maxCount) * 100), 8);
+                              <div className="h-56 flex items-end gap-1.5 sm:gap-3 pt-12 pb-2 px-3 border-b border-cardBorder bg-darkBg/60 rounded-md relative overflow-x-auto overflow-y-visible">
+                                {fullActivity.map((item, idx) => {
+                                  const heightPercent = item.count === 0 ? 6 : Math.max(Math.round((item.count / maxCount) * 100), 15);
+                                  const showLabel = rangeDays === 7 || idx % 5 === 0 || idx === fullActivity.length - 1;
+                                  const isNearTop = heightPercent > 65;
+
                                   return (
-                                    <div key={item._id} className="flex-1 flex flex-col items-center gap-2 group relative">
-                                      <div className="absolute -top-10 opacity-0 group-hover:opacity-100 transition-opacity bg-darkBg border border-cardBorder px-2 py-1 text-[10px] font-mono text-lightText rounded pointer-events-none z-20 whitespace-nowrap shadow-md">
-                                        {item._id}: {item.count} msg{item.count !== 1 ? 's' : ''}
+                                    <div key={item.date} className="flex-1 flex flex-col justify-end items-center gap-1 h-full group relative min-w-[22px]">
+                                      {/* Tooltip */}
+                                      <div className={`absolute ${isNearTop ? 'top-6' : '-top-12'} left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-darkBg border border-cardBorder px-2.5 py-1.5 text-[10px] font-mono text-lightText rounded pointer-events-none z-50 whitespace-nowrap shadow-xl`}>
+                                        <span className="text-brandAccent font-semibold">{item.date}</span>: {item.count} msg{item.count !== 1 ? 's' : ''}
                                       </div>
-                                      <span className="text-[10px] font-mono text-mutedText group-hover:text-brandAccent transition-colors">
-                                        {item.count}
+
+                                      {/* Count label above bar */}
+                                      <span className={`text-[10px] font-mono transition-colors h-4 flex items-center ${item.count > 0 ? 'text-lightText font-bold' : 'text-mutedText/30'}`}>
+                                        {item.count > 0 ? item.count : ''}
                                       </span>
-                                      <div
-                                        style={{ height: `${heightPercent}%` }}
-                                        className="w-full bg-brandAccent/80 hover:bg-brandAccent rounded-t transition-all duration-300"
-                                      />
-                                      <span className="text-[9px] font-mono text-mutedText truncate max-w-[36px]">
-                                        {item._id.slice(5)}
+
+                                      {/* Bar wrapper with full height growth area */}
+                                      <div className="w-full max-w-[36px] flex items-end h-full bg-darkBg/40 rounded-t overflow-hidden border border-cardBorder/30">
+                                        <div
+                                          style={{ height: `${heightPercent}%` }}
+                                          className={`w-full rounded-t transition-all duration-300 ${
+                                            item.count > 0
+                                              ? 'bg-brandAccent hover:bg-[#ff3b4e] shadow-md shadow-brandAccent/40'
+                                              : 'bg-cardBorder/30 hover:bg-cardBorder/60'
+                                          }`}
+                                        />
+                                      </div>
+
+                                      {/* Date label */}
+                                      <span className="text-[9px] font-mono text-mutedText truncate max-w-[46px] text-center mt-1">
+                                        {rangeDays === 7 ? item.label : (showLabel ? item.label.split(' ')[1] || item.label : '')}
                                       </span>
                                     </div>
                                   );
                                 })}
                               </div>
                               <div className="flex items-center justify-between text-xs font-mono text-mutedText">
-                                <span>Showing daily volume</span>
-                                <span>Peak: {maxCount} messages</span>
+                                <span>Showing daily volume ({rangeDays} days)</span>
+                                <span>Peak: {maxCount} message{maxCount !== 1 ? 's' : ''}</span>
                               </div>
                             </div>
                           );

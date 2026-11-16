@@ -47,19 +47,17 @@ export const submitContact = async (req, res, next) => {
       message: message.trim(),
     });
 
-    // 2. Attempt to send email notification (non-blocking for DB persistence)
-    try {
-      await sendContactNotification({
-        name: contactMessage.name,
-        email: contactMessage.email,
-        subject: contactMessage.subject,
-        message: contactMessage.message,
-        createdAt: contactMessage.createdAt,
-      });
-    } catch (emailError) {
+    // 2. Attempt to send email notification asynchronously (non-blocking for DB persistence and response)
+    sendContactNotification({
+      name: contactMessage.name,
+      email: contactMessage.email,
+      subject: contactMessage.subject,
+      message: contactMessage.message,
+      createdAt: contactMessage.createdAt,
+    }).catch((emailError) => {
       // Log error safely without failing the request or losing the saved message
       console.warn('Warning: Contact message saved to database, but email notification failed to send:', emailError.message);
-    }
+    });
 
     res.status(201).json({
       success: true,

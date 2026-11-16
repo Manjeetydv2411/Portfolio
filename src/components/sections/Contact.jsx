@@ -73,6 +73,9 @@ export default function Contact() {
       return
     }
 
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 15000) // 15s timeout
+
     try {
       const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? '/api' : 'http://localhost:5001/api')
       const response = await fetch(`${apiBaseUrl}/contact`, {
@@ -86,6 +89,7 @@ export default function Contact() {
           subject: formData.subject.trim(),
           message: formData.message.trim(),
         }),
+        signal: controller.signal,
       })
 
       const data = await response.json()
@@ -106,11 +110,18 @@ export default function Contact() {
         message: '',
       })
     } catch (err) {
+      let errorMessage = err.message || 'Network error. Please check your connection and try again.'
+      if (err.name === 'AbortError') {
+        errorMessage = 'Request timed out. Please check your connection and try again.'
+      }
       setStatus({
         submitting: false,
         success: false,
-        error: err.message || 'Network error. Please check your connection and try again.',
+        error: errorMessage,
       })
+    } finally {
+      clearTimeout(timeoutId)
+      setStatus((prev) => (prev.submitting ? { ...prev, submitting: false } : prev))
     }
   }
 
